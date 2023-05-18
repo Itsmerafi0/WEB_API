@@ -1,13 +1,21 @@
-﻿namespace API.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API.Models
 {
-    public class Education
+    [Table("tb_m_educations")]
+    public class Education : BaseEntity
     {
-        public Guid Guid { get; set; }
+        [Column("major",TypeName = ("nvarchar(100)"))]
         public string Major {get; set;}
+        [Column("degree", TypeName = ("nvarchar(10)"))]
         public string Degree {get; set;}
-        public float Gpa { get; set;}    
-        public DateTime CreateDate { get; set;}
-        public DateTime ModifiedDate { get; set;}
+        [Column("gpa")]
+        public float Gpa { get; set;}
+        [Column("university_guid")]
         public Guid UniversityGuid { get; set;}
+
+        //Cardinalitas Dengan University dan Employee
+        public University University {get; set;}
+        public Employee Employee { get; set;}
     }
 }

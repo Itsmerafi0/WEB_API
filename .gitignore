@@ -396,3 +396,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+API/Migrations/20230517064216_InitialMigration.cs
+API/Migrations/20230517064216_InitialMigration.Designer.cs
+API/Migrations/20230517073524_Initial.Designer.cs
+API/Migrations/20230517081210_AddUniqueConstraints.cs
+API/Migrations/20230517081210_AddUniqueConstraints.Designer.cs
+API/Migrations/20230517094527_AddRelationalTable.cs
+API/Migrations/20230517094527_AddRelationalTable.Designer.cs
+API/Migrations/BookingManagementDbContextModelSnapshot.cs
+API/Migrations/20230517073524_Initial.cs
