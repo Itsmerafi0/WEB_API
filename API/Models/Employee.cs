@@ -24,10 +24,10 @@ namespace API.Models
         public string PhoneNumber { get; set; }
 
         //Cardinalitas dengan education dan account
-        public Education Education { get; set; }
+        public Education? Education { get; set; }
 
-        public Account Account { get; set; }
+        public Account? Account { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

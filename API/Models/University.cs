@@ -11,6 +11,6 @@ namespace API.Models
         public string Name { get; set; }
 
         //one to many Cardinalitas dengan education
-        public ICollection<Education> Educations { get; set; }
+        public ICollection<Education>? Educations { get; set; }
     }
 }

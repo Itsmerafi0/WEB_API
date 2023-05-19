@@ -18,7 +18,7 @@ namespace API.Models
         public DateTime ExpiredTime { get; set; }
 
         //Cardinalitas dengan employee
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
 
         //Cardinalitas One To Many dengan AccountRole
         public ICollection<AccountRole> AccountRoles { get; set; }
