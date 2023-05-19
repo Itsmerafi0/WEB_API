@@ -21,6 +21,6 @@ namespace API.Models
         public Employee? Employee { get; set; }
 
         //Cardinalitas One To Many dengan AccountRole
-        public ICollection<AccountRole> AccountRoles { get; set; }
+        public ICollection<AccountRole>? AccountRoles { get; set; }
     }
 }

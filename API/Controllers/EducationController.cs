@@ -42,7 +42,7 @@ namespace API.Controllers
             var result = _educationRepository.Create(education);
             if (result is null)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(result);
         }

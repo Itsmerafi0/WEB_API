@@ -43,7 +43,7 @@ namespace API.Controllers
             var result = _universityRepository.Create(university);
             if(result is null)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(result);
         }

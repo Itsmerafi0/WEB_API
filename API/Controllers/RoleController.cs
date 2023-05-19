@@ -44,7 +44,7 @@ namespace API.Controllers
             var result = _roleRepository.Create(role);
             if(result is null)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(result);
         }

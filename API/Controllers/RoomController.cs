@@ -46,7 +46,7 @@ namespace API.Controllers
             var result = _roomRepository.Create(room);
             if (result is null)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(result);
         }
