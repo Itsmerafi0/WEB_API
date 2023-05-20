@@ -4,10 +4,10 @@ using API.Models;
 
 namespace API.Repositories
 {
-    public class AccountRepository : IAccountRepository
+    public class ControllerRepository<Tentity> : IController<Tentity>where Tentity : class
     {
         private readonly BookingManagementDbContext _context;
-        public AccountRepository(BookingManagementDbContext context)
+        public ControllerRepository(BookingManagementDbContext context)
         {
             _context = context;
         }
@@ -19,17 +19,17 @@ namespace API.Repositories
          * <param name="university">University object</param>
          * <returns>University object</returns>
          */
-        public Account Create(Account account)
+        public Tentity Create(Tentity tentity)
         {
             try
             {
-                _context.Set<Account>().Add(account);
+                _context.Set<Tentity>().Add(tentity);
                 _context.SaveChanges();
-                return account;
+                return tentity;
             }
             catch
             {
-                return new Account();
+                return null;
             }
         }
 
@@ -41,11 +41,11 @@ namespace API.Repositories
          * <returns>true if data updated</returns>
          * <returns>false if data not updated</returns>
          */
-        public bool Update(Account account)
+        public bool Update(Tentity tentity)
         {
             try
             {
-                _context.Set<Account>().Update(account);
+                _context.Set<Tentity>().Update(tentity);
                 _context.SaveChanges();
                 return true;
             }
@@ -67,13 +67,13 @@ namespace API.Repositories
         {
             try
             {
-                var account = GetByGuid(guid);
-                if (account == null)
+                var entity = GetByGuid(guid);
+                if (entity == null)
                 {
                     return false;
                 }
 
-                _context.Set<Account>().Remove(account);
+                _context.Set<Tentity>().Remove(entity);
                 _context.SaveChanges();
                 return true;
             }
@@ -90,9 +90,9 @@ namespace API.Repositories
          * <returns>List of universities</returns>
          * <returns>Empty list if no data found</returns>
          */
-        public IEnumerable<Account> GetAll()
+        public IEnumerable<Tentity> GetAll()
         {
-            return _context.Set<Account>().ToList();
+            return _context.Set<Tentity>().ToList();
         }
 
         /*
@@ -103,9 +103,9 @@ namespace API.Repositories
          * <returns>University object</returns>
          * <returns>null if no data found</returns>
          */
-        public Account? GetByGuid(Guid guid)
+        public Tentity GetByGuid(Guid guid)
         {
-            return _context.Set<Account>().Find(guid);
+            return _context.Set<Tentity>().Find(guid);
         }
     }
 }

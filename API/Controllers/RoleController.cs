@@ -8,8 +8,8 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class RoleController : ControllerBase
     {
-        private readonly IRoleRepository _roleRepository;
-        public RoleController(IRoleRepository roleRepository)
+        private readonly IController<Role> _roleRepository;
+        public RoleController(IController<Role> roleRepository)
         {
             _roleRepository = roleRepository;
         }
