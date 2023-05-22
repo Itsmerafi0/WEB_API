@@ -1,5 +1,7 @@
 ﻿using API.Contracts;
 using API.Models;
+using API.Utility;
+using API.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,10 +11,12 @@ namespace API.Controllers;
 
 public class EmployeeController : ControllerBase
 {
-    private readonly IController<Employee> _employeeRepository;
-    public EmployeeController(IController<Employee> employeeRepository)
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IMapper<Employee, EmployeeVM> _mapper;
+    public EmployeeController(IEmployeeRepository employeeRepository, IMapper<Employee, EmployeeVM> mapper)
     {
         _employeeRepository = employeeRepository;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -23,23 +27,28 @@ public class EmployeeController : ControllerBase
         {
             return NotFound();
         }
-
-        return Ok(employees);
+        var resultConverted = employees.Select(_mapper.Map).ToList();
+        return Ok(resultConverted);
     }
 
     [HttpGet("{guid}")]
     public IActionResult GetbyGuid(Guid guid)
     {
+
         var employee = _employeeRepository.GetByGuid(guid);
         if (employee is null)
-        { return NotFound(); }
-        return Ok(employee);
+        { 
+            return NotFound(); 
+        }
+        var data = _mapper.Map(employee);
+        return Ok(data);
     }
 
     [HttpPost]
-    public IActionResult Create(Employee employee)
+    public IActionResult Create(EmployeeVM employeeVM)
     {
-        var result = _employeeRepository.Create(employee);
+        var employeeConverted = _mapper.Map(employeeVM);
+        var result = _employeeRepository.Create(employeeConverted);
         if (result is null)
         {
             return BadRequest();
@@ -49,9 +58,10 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Put(Employee employee)
+    public IActionResult Put(EmployeeVM employeeVM)
     {
-        var isUpdated = _employeeRepository.Update(employee);
+        var employeeConverted = _mapper.Map(employeeVM);
+        var isUpdated = _employeeRepository.Update(employeeConverted);
         if (!isUpdated)
         {
             return BadRequest();

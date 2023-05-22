@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.Models;
 using API.Repositories;
+using API.ViewModels.Bookings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -9,10 +10,12 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class BookingController : ControllerBase
     {
-        private readonly IController<Booking> _bookingRepository;
-        public BookingController(IController<Booking> bookingRepository)
+        private readonly IBookingRepository _bookingRepository;
+        private readonly IMapper<Booking, BookingVM> _mapper;
+        public BookingController(IBookingRepository bookingRepository, IMapper<Booking , BookingVM> mapper)
         {
             _bookingRepository = bookingRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +26,8 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            return Ok(bookings);
+            var data = bookings.Select(_mapper.Map).ToList();
+            return Ok(data);
         }
         [HttpGet("{guid}")]
         public IActionResult GetByGuid(Guid id)
@@ -33,14 +37,15 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(booking);
+            var data = _mapper.Map(booking);
+            return Ok(data);
         }
 
         [HttpPost]
-        public IActionResult Create(Booking booking)
+        public IActionResult Create(BookingVM bookingVM)
         {
-            var result = _bookingRepository.Create(booking);
+            var bookingConverted = _mapper.Map(bookingVM);
+            var result = _bookingRepository.Create(bookingConverted);
             if (result is null)
             {
                 return BadRequest();
@@ -48,10 +53,12 @@ namespace API.Controllers
             return Ok(result);
         }
         [HttpPut]
-        public IActionResult Update(Booking booking)
+        public IActionResult Update(BookingVM bookingVM)
         {
-            var IsUpdate = _bookingRepository.Update(booking);
-            if (IsUpdate)
+            var bookingConverted = _mapper.Map(bookingVM);
+
+            var IsUpdate = _bookingRepository.Update(bookingConverted);
+            if (!IsUpdate)
             {
                 return BadRequest();
             }
@@ -61,7 +68,7 @@ namespace API.Controllers
         public IActionResult Delete(Guid guid)
         {
             var isDeleted = _bookingRepository.Delete(guid);
-            if (isDeleted)
+            if (!isDeleted)
             {
                 return BadRequest();
             }

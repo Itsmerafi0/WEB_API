@@ -1,5 +1,6 @@
 ﻿using API.Contracts;
 using API.Models;
+using API.ViewModels.Roles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,10 +9,12 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class RoleController : ControllerBase
     {
-        private readonly IController<Role> _roleRepository;
-        public RoleController(IController<Role> roleRepository)
+        private readonly IRoleRepository _roleRepository;
+        private readonly IMapper<Role,RoleVM> _mapper;
+        public RoleController(IRoleRepository roleRepository, IMapper<Role,RoleVM>mapper)
         {
             _roleRepository = roleRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +25,8 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            return Ok(roles);
+            var data = roles.Select(_mapper.Map).ToList();
+            return Ok(data);
         }
 
         [HttpGet("{guid}")]
@@ -33,15 +37,16 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(role);
+            var data = _mapper.Map(role);
+            return Ok(data);
 
         }
 
         [HttpPost]
-        public IActionResult Create(Role role)
+        public IActionResult Create(RoleVM roleVM)
         {
-            var result = _roleRepository.Create(role);
+            var roleConverted = _mapper.Map(roleVM);
+            var result = _roleRepository.Create(roleConverted);
             if(result is null)
             {
                 return BadRequest();
@@ -50,10 +55,11 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(Role role)
+        public IActionResult Update(RoleVM roleVM)
         {
-            var IsUpdate = _roleRepository.Update(role);
-            if (IsUpdate)
+            var roleConverted = _mapper.Map(roleVM);
+            var IsUpdate = _roleRepository.Update(roleConverted);
+            if (!IsUpdate)
             {
                 return BadRequest();
             }
@@ -63,7 +69,7 @@ namespace API.Controllers
         public IActionResult Delete(Guid guid)
         {
             var isDeleted = _roleRepository.Delete(guid);
-            if (isDeleted)
+            if (!isDeleted)
             {
                 return BadRequest();
             }

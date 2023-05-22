@@ -4,10 +4,10 @@ using API.Models;
 
 namespace API.Repositories
 {
-    public class ControllerRepository<Tentity> : IController<Tentity>where Tentity : class
+    public class GeneralRepository<Tentity> : IGeneralRepository<Tentity>where Tentity : class
     {
-        private readonly BookingManagementDbContext _context;
-        public ControllerRepository(BookingManagementDbContext context)
+        protected readonly BookingManagementDbContext _context;
+        public GeneralRepository(BookingManagementDbContext context)
         {
             _context = context;
         }
@@ -19,10 +19,12 @@ namespace API.Repositories
          * <param name="university">University object</param>
          * <returns>University object</returns>
          */
-        public Tentity Create(Tentity tentity)
+        public Tentity? Create(Tentity tentity)
         {
             try
             {
+                typeof(Tentity).GetProperty("CreatedDate")!.SetValue(tentity, DateTime.Now);
+                typeof(Tentity).GetProperty("ModifiedDate")!.SetValue(tentity, DateTime.Now);
                 _context.Set<Tentity>().Add(tentity);
                 _context.SaveChanges();
                 return tentity;
@@ -45,6 +47,20 @@ namespace API.Repositories
         {
             try
             {
+                var guid = (Guid)typeof(Tentity).GetProperty("Guid")!
+                                                .GetValue(tentity)!;
+                var oldEntity = GetByGuid(guid);
+                if(oldEntity == null) {
+                    return false;
+                }
+                var getCreatedDate = typeof(Tentity).GetProperty("CreatedDate")!
+                                                    .GetValue(oldEntity)!;
+                
+                typeof(Tentity).GetProperty("CreatedDate")!
+                               .SetValue(tentity, getCreatedDate);
+                typeof(Tentity).GetProperty("ModifiedDate")!
+                               .SetValue(tentity, DateTime.Now);
+
                 _context.Set<Tentity>().Update(tentity);
                 _context.SaveChanges();
                 return true;
@@ -103,9 +119,12 @@ namespace API.Repositories
          * <returns>University object</returns>
          * <returns>null if no data found</returns>
          */
-        public Tentity GetByGuid(Guid guid)
+        public Tentity? GetByGuid(Guid guid)
         {
-            return _context.Set<Tentity>().Find(guid);
+            var entity = _context.Set<Tentity>().Find(guid);
+            _context.ChangeTracker.Clear();
+            return entity;
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using API.Contracts;
 using API.Models;
+using API.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -8,9 +9,11 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
-    private readonly IController<Account> _accountRepository;
-    public AccountController(IController<Account> accountRepository)
+    private readonly IMapper<Account, AccountVM> _mapper;
+    private readonly IAccountRepository _accountRepository;
+    public AccountController(IAccountRepository accountRepository, IMapper<Account, AccountVM> mapper)
     {
+        _mapper = mapper;
         _accountRepository = accountRepository;
     }
 
@@ -22,8 +25,8 @@ public class AccountController : ControllerBase
         {
             return NotFound();
         }
-
-        return Ok(accounts);
+        var data = accounts.Select(_mapper.Map).ToList();
+        return Ok(data);
     }
 
     [HttpGet("{guid}")]
@@ -34,26 +37,28 @@ public class AccountController : ControllerBase
         {
             return NotFound();
         }
-
-        return Ok(account);
+        var data = _mapper.Map(account);
+        return Ok(data);
     }
 
     [HttpPost]
-    public IActionResult Create(Account account)
+    public IActionResult Create(AccountVM accountVM)
     {
-        var result = _accountRepository.Create(account);
+        var accountConverted = _mapper.Map(accountVM);
+        var result = _accountRepository.Create(accountConverted);
         if (result is null)
         {
             return BadRequest();
         }
-
+        
         return Ok(result);
     }
 
     [HttpPut]
-    public IActionResult Update(Account account)
+    public IActionResult Update(AccountVM accountVM)
     {
-        var isUpdated = _accountRepository.Update(account);
+        var accountConverted = _mapper.Map(accountVM);
+        var isUpdated = _accountRepository.Update(accountConverted);
         if (!isUpdated)
         {
             return BadRequest();
