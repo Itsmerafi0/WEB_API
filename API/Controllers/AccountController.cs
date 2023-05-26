@@ -9,6 +9,7 @@ using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net;
+using static System.Net.WebRequestMethods;
 
 namespace API.Controllers;
 
@@ -214,19 +215,55 @@ public class AccountController : ControllerBase
         switch (changePass)
         {
             case 0:
-                return BadRequest("");
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "ChangePassword Failed"
+                });
             case 1:
-                return Ok("Password has been changed successfully");
+                return Ok(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status200OK,
+                    Status = HttpStatusCode.OK.ToString(),
+                    Message ="ChangePassword Success"
+                });
             case 2:
-                return BadRequest("Invalid OTP");
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message ="invalidOTP "
+                });
             case 3:
-                return BadRequest("OTP has already been used");
+
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "OTP has already been used"
+                });
             case 4:
-                return BadRequest("OTP expired");
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "OTP expired"
+                });
             case 5:
-                return BadRequest("Wrong Password No Same");
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "Wrong Password No Same"
+                });
             default:
-                return BadRequest();
+                return BadRequest(new ResponseVM<ChangePasswordVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "Error"
+                });
         }
 
     }
