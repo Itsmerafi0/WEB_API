@@ -11,5 +11,15 @@ namespace API.Repositories
         {
             return _context.Set<Education>().Where(e => e.UniversityGuid == universityId);
         }
+        public IEnumerable<Education> GetByEducationId(Guid educationId)
+        {
+            return _context.Set<Education>().Where(e => e.Guid == educationId);
+        }
+
+        public Education GetByEmployeeId(Guid employeeId)
+        {
+            return _context.Set<Education>().Find(employeeId);
+        }
+
     }
 }

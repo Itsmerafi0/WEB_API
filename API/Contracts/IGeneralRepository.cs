@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.ViewModels.Accounts;
 
 namespace API.Contracts
 {
@@ -11,6 +12,5 @@ namespace API.Contracts
         IEnumerable<Tentity> GetAll();
 
         Tentity? GetByGuid(Guid guid);
-
     }
 }

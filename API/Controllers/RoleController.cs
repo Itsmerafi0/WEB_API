@@ -1,7 +1,11 @@
 ﻿using API.Contracts;
 using API.Models;
+using API.ViewModels.AccountRoles;
 using API.ViewModels.Roles;
+using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using API.ViewModels.Others;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -10,11 +14,15 @@ namespace API.Controllers
     public class RoleController : ControllerBase
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly IAccountRoleRepository _accountRoleRepository;
         private readonly IMapper<Role,RoleVM> _mapper;
-        public RoleController(IRoleRepository roleRepository, IMapper<Role,RoleVM>mapper)
+        private readonly IMapper<AccountRole, AccountRoleVM> _accountrolemapper;
+        public RoleController(IRoleRepository roleRepository, IMapper<Role,RoleVM>mapper, IAccountRoleRepository accountroleRepository, IMapper<AccountRole,AccountRoleVM>accountrolemapper)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;
+            _accountRoleRepository = accountroleRepository;
+            _accountrolemapper = accountrolemapper;
         }
 
         [HttpGet]
@@ -23,10 +31,21 @@ namespace API.Controllers
             var roles = _roleRepository.GetAll();
             if (!roles.Any())
             {
-                return NotFound();
+                return NotFound(new ResponseVM<RoleVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Not Found"
+                });
             }
             var data = roles.Select(_mapper.Map).ToList();
-            return Ok(data);
+            return Ok(new ResponseVM<List<RoleVM>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Found Data Role",
+                Data = data
+            });
         }
 
         [HttpGet("{guid}")]
@@ -35,10 +54,21 @@ namespace API.Controllers
             var role = _roleRepository.GetByGuid(id);
             if (role is null)
             {
-                return NotFound();
+                return NotFound(new ResponseVM<RoleVM>
+                {
+                    Code = StatusCodes.Status404NotFound
+                    , Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Not Found"
+                });
             }
             var data = _mapper.Map(role);
-            return Ok(data);
+            return Ok(new ResponseVM<RoleVM>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Found Guid Success",
+                Data = data
+            });
 
         }
 
@@ -49,9 +79,19 @@ namespace API.Controllers
             var result = _roleRepository.Create(roleConverted);
             if(result is null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseVM<RoleVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message ="Create Role Failed"
+                });
             }
-            return Ok(result);
+            return Ok(new ResponseVM<RoleVM>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Create Role Success"
+            });
         }
 
         [HttpPut]
@@ -61,9 +101,19 @@ namespace API.Controllers
             var IsUpdate = _roleRepository.Update(roleConverted);
             if (!IsUpdate)
             {
-                return BadRequest();
+                return BadRequest(new ResponseVM<RoleVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "Update Role Failed"
+                });
             }
-            return Ok();
+            return Ok(new ResponseVM<RoleVM>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Update Role Success"
+            });
         }
         [HttpDelete("{guid}")]
         public IActionResult Delete(Guid guid)
@@ -71,9 +121,18 @@ namespace API.Controllers
             var isDeleted = _roleRepository.Delete(guid);
             if (!isDeleted)
             {
-                return BadRequest();
+                return BadRequest(new ResponseVM<RoleVM>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "Delete Role Failed"
+                });
             }
-            return Ok();
+            return Ok(new ResponseVM<RoleVM>{
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Delete Role Success"
+            });
         }
     }
 
