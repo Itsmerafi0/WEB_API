@@ -58,7 +58,7 @@ public class AccountController : ControllerBase
             var account = _accountRepository.GetByGuid(guid);
             if (account is null)
             {
-                return NotFound(new ResponseVM<List<Guid>>
+                return NotFound(new ResponseVM<List<AccountVM>>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
@@ -66,7 +66,13 @@ public class AccountController : ControllerBase
                 });
             }
             var data = _mapper.Map(account);
-            return Ok(data);
+            return Ok(new ResponseVM<AccountVM>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message ="Guid Found",
+                Data = data
+            });
         }
 
     [HttpPost("Register")]
