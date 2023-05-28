@@ -1,9 +1,9 @@
 ﻿using API.Contexts;
 using API.Contracts;
 using API.Models;
-using API.Utility;
 using API.ViewModels.Accounts;
-using System.Text.RegularExpressions;
+using API.Utility;
+using System.Linq;
 
 namespace API.Repositories;
 
@@ -72,7 +72,7 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
             var account = new Account
             {
                 Guid = employee.Guid,
-                Password = registerVM.Password,
+                Password = Hashing.HashPassword(registerVM.Password),
                 IsDeleted = false,
                 IsUsed = true,
                 OTP = 0
@@ -107,8 +107,12 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
 
     public LoginVM Login(LoginVM loginVM)
     {
+       
+
         var account = GetAll();
-        var employee = _employeeRepository.GetAll();
+        var employee = _context.Employees.ToList();
+
+ 
         var query = from emp in employee
                     join acc in account
                     on emp.Guid equals acc.Guid
@@ -118,10 +122,17 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
                         Email = emp.Email,
                         Password = acc.Password
                     };
-        return query.FirstOrDefault();
+        var data = query.FirstOrDefault();
+
+            if(data != null && Hashing.ValidatePassword(loginVM.Password, data.Password))
+            {
+            loginVM.Password = data.Password;
+            }
+        return data;
     }
 
-    public int UpdateOTP(Guid? employeeId)
+
+public int UpdateOTP(Guid? employeeId)
     {
         var account = new Account();
         account = _context.Set<Account>().FirstOrDefault(a => a.Guid == employeeId);
@@ -170,7 +181,7 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
             return 5;
         }
         // Update password
-        account.Password = changePasswordVM.NewPassword;
+        account.Password = Hashing.HashPassword(changePasswordVM.NewPassword);
         account.IsUsed = true;
         try
         {

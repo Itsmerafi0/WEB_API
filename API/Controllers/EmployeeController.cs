@@ -12,12 +12,12 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class EmployeeController : ControllerBase
+public class EmployeeController : BaseController<Employee, EmployeeVM>
 {
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IMapper<Employee, EmployeeVM> _mapper;
 
-    public EmployeeController(IEmployeeRepository employeeRepository, IMapper<Employee, EmployeeVM> mapper )
+    public EmployeeController(IEmployeeRepository employeeRepository, IMapper<Employee, EmployeeVM> mapper ) : base (employeeRepository, mapper )
     {
         _employeeRepository = employeeRepository;
         _mapper = mapper;
@@ -69,119 +69,5 @@ public class EmployeeController : ControllerBase
         });
     }
 
-    [HttpGet]
-    public IActionResult Getall()
-    {
-        var employees = _employeeRepository.GetAll();
-        if (!employees.Any())
-        {
-            return NotFound(new ResponseVM<EmployeeVM>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Not Found"
-            });
-        }
-        var resultConverted = employees.Select(_mapper.Map).ToList();
-        return Ok(new ResponseVM<List<EmployeeVM>>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Found",
-            Data = resultConverted
-        });
-    }
-
-    [HttpGet("{guid}")]
-    public IActionResult GetbyGuid(Guid guid)
-    {
-
-        var employee = _employeeRepository.GetByGuid(guid);
-        if (employee is null)
-        { 
-            return NotFound(new ResponseVM<EmployeeVM>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "NotFound"
-            }); 
-        }
-        var data = _mapper.Map(employee);
-        return Ok(new ResponseVM<EmployeeVM>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Found",
-            Data = data
-        });
-    }
-
-    [HttpPost]
-    public IActionResult Create(EmployeeVM employeeVM)
-    {
-        var employeeConverted = _mapper.Map(employeeVM);
-        var result = _employeeRepository.Create(employeeConverted);
-        if (result is null)
-        {
-            return BadRequest(new ResponseVM<EmployeeVM>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Failed Create Employee"
-            });
-        }
-
-        return Ok(new ResponseVM<EmployeeVM>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Success Create Employee"
-        });
-    }
-
-    [HttpPut]
-    public IActionResult Put(EmployeeVM employeeVM)
-    {
-        var employeeConverted = _mapper.Map(employeeVM);
-        var isUpdated = _employeeRepository.Update(employeeConverted);
-        if (!isUpdated)
-        {
-            return BadRequest(new ResponseVM<EmployeeVM>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Failed Update Employee"
-            });
-        }
-
-        return Ok(new ResponseVM<EmployeeVM>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Success Update Employee" 
-        });
-
-    }
-
-    [HttpDelete("{guid}")]
-    public IActionResult Delete(Guid guid)
-    {
-        var isDeleted = _employeeRepository.Delete(guid);
-        if (!isDeleted)
-        {
-            return BadRequest(new ResponseVM<EmployeeVM>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Failed Delete Employee"
-            });
-        }
-
-        return Ok(new ResponseVM<EmployeeVM>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Success Delete Employee"
-        });
-    }
+    
 }
