@@ -141,5 +141,10 @@ namespace API.Repositories
                 return "Available";
             }
         }
+
+        public bool CheckName(string value)
+        {
+            return _context.Rooms.Any(a => a.Name == value);
+        }
     }
 }

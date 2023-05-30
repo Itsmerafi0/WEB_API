@@ -11,31 +11,13 @@ namespace API.Repositories
     {
         public EmployeeRepository(BookingManagementDbContext context) : base(context) { }
 
-        public int CreateWithValidate(Employee employee)
+        public bool CheckEmailAndPhoneAndNIK(string value)
         {
-            try
-            {
-                bool ExistsByEmail = _context.Employees.Any(e => e.Email == employee.Email);
-                if (ExistsByEmail)
-                {
-                    return 1;
-                }
-
-                bool ExistsByPhoneNumber = _context.Employees.Any(e => e.PhoneNumber == employee.PhoneNumber);
-                if (ExistsByPhoneNumber)
-                {
-                    return 2;
-                }
-
-                Create(employee);
-                return 3;
-
-            }
-            catch
-            {
-                return 0;
-            }
+            return _context.Employees.Any(e => e.Email == value || 
+                                            e.PhoneNumber == value || 
+                                            e.Nik == value);
         }
+
         public IEnumerable<MasterEmployeeVM> GetAllMasterEmployee()
         {
             var employees = GetAll();
@@ -116,6 +98,13 @@ namespace API.Repositories
                 return null;
             }
 
+        }
+
+       public Employee GetEmail(string email)
+        {
+            var employee = _context.Set<Employee>().FirstOrDefault(e => e.Email == email);
+
+            return employee;
         }
     }
 

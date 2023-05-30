@@ -5,9 +5,13 @@ namespace API.Contracts
 {
     public interface IEmployeeRepository : IGeneralRepository<Employee>
     {
-        int CreateWithValidate(Employee employee);
         Guid? FindGuidByEmail(string email);
         IEnumerable<MasterEmployeeVM> GetAllMasterEmployee();
         MasterEmployeeVM? GetMasterEmployeeByGuid(Guid guid);
+
+        bool CheckEmailAndPhoneAndNIK(string value);
+    
+        Employee GetEmail(string email);
+
     }
 }

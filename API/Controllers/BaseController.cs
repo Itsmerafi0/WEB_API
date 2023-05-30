@@ -1,7 +1,9 @@
 ﻿using API.Contracts;
 using API.Models;
+using API.Utility;
 using API.ViewModels.Bookings;
 using API.ViewModels.Others;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = $"{nameof(RoleLevel.Admin)}, {nameof(RoleLevel.Manager)}")]
     public class BaseController<TModel, TViewModel> : ControllerBase
     {
         private readonly IGeneralRepository<TModel> _repository;

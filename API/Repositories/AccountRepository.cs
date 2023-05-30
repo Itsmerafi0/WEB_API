@@ -4,6 +4,8 @@ using API.Models;
 using API.ViewModels.Accounts;
 using API.Utility;
 using System.Linq;
+using API.ViewModels.Employees;
+using API.ViewModels.Others;
 
 namespace API.Repositories;
 
@@ -36,8 +38,8 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
         {
             var university = new University
             {
-                Code = registerVM.Code,
-                Name = registerVM.Name
+                Code = registerVM.UniversitasCode,
+                Name = registerVM.UniversityName
 
             };
             _universityRepository.Create(university);
@@ -53,12 +55,8 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
                 Email = registerVM.Email,
                 PhoneNumber = registerVM.PhoneNumber,
             };
-            var result = _employeeRepository.CreateWithValidate(employee);
+            var result = _employeeRepository.Create(employee);
 
-            if (result != 3)
-            {
-                return result;
-            }
             var education = new Education
             {
                 Guid = employee.Guid,
@@ -80,6 +78,15 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
 
             Create(account);
 
+            var accountRole = new AccountRole
+            {
+                RoleGuid = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                AccountGuid = employee.Guid
+            };
+
+                _context.AccountRoles.Add(accountRole);
+                _context.SaveChanges();
+        
             return 3;
 
         }
@@ -132,7 +139,7 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
     }
 
 
-public int UpdateOTP(Guid? employeeId)
+    public int UpdateOTP(Guid? employeeId)
     {
         var account = new Account();
         account = _context.Set<Account>().FirstOrDefault(a => a.Guid == employeeId);
@@ -196,6 +203,18 @@ public int UpdateOTP(Guid? employeeId)
         {
             return 0;
         }
+    }
+    public IEnumerable<string> GetRoles(Guid Guid)
+    {
+        var getAccount = GetByGuid(Guid);
+        if (getAccount == null) return Enumerable.Empty<string>();
+        var getAccountRoles = from accountRoles in _context.AccountRoles
+                              join roles in _context.Roles on accountRoles.RoleGuid equals roles.Guid
+                              where accountRoles.AccountGuid == Guid
+                              select roles.Name;
+
+        return getAccountRoles.ToList();
+
     }
 
 }

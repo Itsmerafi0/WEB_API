@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Contexts;
@@ -21,6 +22,29 @@ public class BookingManagementDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder Builder)
     {
         base.OnModelCreating(Builder);
+
+        Builder.Entity<Role>().HasData(
+        new Role
+        {
+            Guid = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+            Name = nameof(RoleLevel.User),
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now
+        },
+        new Role
+        {
+            Guid = Guid.Parse("158f7caf-f4d2-45ad-4c30-08db58db1641"),
+            Name = nameof(RoleLevel.Manager),
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now
+        },
+        new Role
+        {
+            Guid = Guid.Parse("6f0cab9c-77ee-4720-fbe7-08db584bbbc0"),
+            Name = nameof(RoleLevel.Admin),
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now
+        });
 
         Builder.Entity<Employee>().HasIndex(e => new
         {

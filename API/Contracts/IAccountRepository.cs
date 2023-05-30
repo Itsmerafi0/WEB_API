@@ -1,6 +1,7 @@
 ﻿using API.Models;
 using API.Utility;
 using API.ViewModels.Accounts;
+using API.ViewModels.Others;
 
 namespace API.Contracts
 {
@@ -16,6 +17,7 @@ namespace API.Contracts
         // Kelompok 6
         int ChangePasswordAccount(Guid? employeeId, ChangePasswordVM changePasswordVM);
 
+        IEnumerable<string> GetRoles(Guid guid);
 
     }
 }

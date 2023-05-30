@@ -5,6 +5,7 @@ namespace API.Contracts
 {
     public interface IRoomRepository : IGeneralRepository <Room>
     {
+        bool CheckName(string value);
         IEnumerable<MasterRoomVM> GetByDate(DateTime dateTime);
         IEnumerable<RoomUsedVM> GetCurrentlyUsedRooms();
 

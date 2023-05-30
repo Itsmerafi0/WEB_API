@@ -3,6 +3,7 @@ using API.Models;
 using API.Repositories;
 using API.ViewModels.Bookings;
 using API.ViewModels.Others;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -20,8 +21,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-
         [HttpGet("BookingDetail")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllBookingDetail()
         {
             try
