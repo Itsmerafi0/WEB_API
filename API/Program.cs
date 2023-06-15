@@ -20,7 +20,7 @@ builder.Services.AddDbContext<BookingManagementDbContext>(options => options.Use
 
 
 // Add Repository to the container.
-builder.Services.AddScoped<IUniveristyRepository, UniversityRepository>();
+builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IEducationRepository, EducationRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();

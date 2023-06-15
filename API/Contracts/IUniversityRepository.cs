@@ -2,10 +2,11 @@
 
 namespace API.Contracts
 {
-    public interface IUniveristyRepository : IGeneralRepository<University>
+    public interface IUniversityRepository : IGeneralRepository<University>
     {
 
         IEnumerable<University> GetByName(string name);
         University CreateWithValidate (University university);
+      
     }
 }

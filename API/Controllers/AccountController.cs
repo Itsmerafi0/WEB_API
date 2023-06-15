@@ -23,12 +23,12 @@ public class AccountController : BaseController<Account, AccountVM>
     private readonly IMapper<Account, AccountVM> _mapper;
     private readonly IAccountRepository _accountRepository;
     private readonly IEducationRepository _educationRepository;
-    private readonly IUniveristyRepository _universityRepository;
+    private readonly IUniversityRepository _universityRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmailService _emailService;
     private readonly ITokenService _tokenService;
     public AccountController(IAccountRepository accountRepository, IEmployeeRepository employeeRepository,
-        IEducationRepository educationRepository, IUniveristyRepository univeristyRepository,
+        IEducationRepository educationRepository, IUniversityRepository univeristyRepository,
         IMapper<Account, AccountVM> mapper, IEmailService emailService, ITokenService tokenService) : base(accountRepository, mapper)
     {
         _mapper = mapper;

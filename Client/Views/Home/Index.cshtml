@@ -1,0 +1,480 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_LatihanLayout";
+}
+
+@*<div class="container-fluid mt-4">
+      <div class="row">
+        <div class="main col-md-8" style="background-color: #B8860B">
+        Main Content
+        </div>
+        <ul class="col m-0 p-0">
+            <li class="col" style="background-color: #006400">Baris 1</li>
+            <li class="col" style="background-color: #1e88e5">Baris 2</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center p-4">
+      <button onclick="baris()"type="button" class="mr-2 btn btn-primary btn-sm">
+        Change 1
+      </button>
+      <button onclick="baris1()"type="button" class="mr-2 btn btn-primary btn-sm">
+        Change 2
+      </button>
+    <button onclick="baris2()"type="button" class="mr-2 btn btn-primary btn-sm">Change 3
+    </button>
+    </div>
+*@
+
+@*<div>
+    <h1> Star Wars</h1>
+    </div>
+*@
+@*<table class="tb" id="starwar"></table>
+*@
+@*<class ="Title" <h1> List Pokemon</h1></class>
+<table id="tablePoke" class="tablePokemon">
+    <thead>
+        <tr class="table-row">
+            <th>No.</th>
+            <th>Guid</th>
+            <th>Nik</th>
+            <th>fullname</th>
+            <th>birthdate</th>
+            <th>gender</th>
+            <th>hiringdate</th>
+            <th>email</th>
+            <th>phonenumber</th>
+            <th>major</th>
+            <th>degree</th>
+            <th>gpa</th>
+            <th>universityname</th>
+            <th>Employee</th>
+            <th>Register</th>
+        </tr>
+    </thead>
+    <tbody id="wrapper-sw">
+    </tbody>
+</table>*@
+
+<class ="Title" <h1> Employee</h1></class>
+<table id="Employee" class="tablePokemon">
+    <thead>
+        <tr class="table-row">
+            <th>No.</th>
+            <th>Guid</th>
+            <th>Nik</th>
+            <th>firstname</th>
+            <th>lastname</th>
+            <th>birthdate</th>
+            <th>gender</th>
+            <th>hiringdate</th>
+            <th>email</th>
+            <th>phonenumber</th>
+            <th>Add Employee</th>
+            <th>Update Employee</th>
+            <th>Delete Employee</th>
+
+        </tr>
+    </thead>
+    <tbody id="wrapper-sw">
+    </tbody>
+</table>
+
+<div class="modal fade" id="employeeUpdateModal" tabindex="-1" role="dialog" aria-labelledby="employeeUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary">
+                <h5 class="modal-title text-white" id="employeeUpdateModalTitle">Update Employee</h5>
+            </div>
+            <div class="modal-body" id="employeeUpdateModalBody">
+                <div class="container-fluid">
+                    <div class="row">
+                        <form class="row g-3 needs-validation" novalidate onsubmit="updateEmployee()">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">NIK</label>
+                                <input type="text" class="form-control" id="u-employee-nik" name="employee-nik" pattern="\d{6}" required />
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please input the NIK.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="u-employee-fname" name="employee-fname" required />
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please input the First Name.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="u-employee-lname" name="employee-lname" />
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Birthdate</label>
+                                <input type="date" class="form-control" id="u-employee-bdate" name="employee-bdate" required />
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please input the Birthdate.
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="u-employee-gender" id="u-employee-gender-f" required>
+                                    <label class="form-check-label" for="employee-gender-f">
+                                        Female
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="u-employee-gender" id="u-employee-gender-m" required>
+                                    <label class="form-check-label" for="employee-gender-m">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please choose the Gender.
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Hiring Date</label>
+                                <input type="date" class="form-control" id="u-employee-hdate" name="employee-hdate" required />
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please input the Hiring Date.
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="u-employee-email" name="employee-email" required />
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please input the Email.
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+62</span>
+                                    <input type="text" class="form-control" id="u-employee-pnumber" name="employee-pnumber" pattern="[0-9]{10,15}" required />
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please input the Phone Number.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit">Update Form</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalTitle">Add Employee</h5>
+            </div>
+            <div class="modal-body" id="employeeModalBody">
+                <div class="container-fluid">
+                    <form class="row" onsubmit="AddEmployee()">
+                        <div class="col-md-12">
+                            <label class="form-label ">NIK</label>
+                            <input type="text" class="form-control" id="employee-nik" name="employee-nik" maxlength="6" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label ">First Name</label>
+                            <input type="text" class="form-control" id="employee-fname" name="employee-fname" required />
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please input your first name.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label ">Last Name</label>
+                            <input type="text" class="form-control" id="employee-lname" name="employee-lname" required />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label ">Birthdate</label>
+                            <input type="date" class="form-control" id="employee-bdate" name="employee-bdate" />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label" >Gender</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="employee-gender" id="employee-gender-f">
+                                <label class="form-check-label " for="employee-gender-f">
+                                    Female
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="employee-gender" id="employee-gender-m">
+                                <label class="form-check-label text" for="employee-gender-m">
+                                    Male
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label ">Hiring Date</label>
+                            <input type="date" class="form-control" id="employee-hdate" name="employee-hdate" />
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please input your first name.
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label ">Email</label>
+                            <input type="email" class="form-control" id="employee-email" name="employee-email" required />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label ">Phone Number</label>
+                            <input type="text" class="form-control" id="employee-pnumber" name="employee-pnumber" required />
+                        </div>
+ @*                       <div class="col-md-12">
+                            <label class="form-label ">Department ID</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+ *@                       <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pokeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="title-wrapper">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" id="tab1" data-toggle="tab" href="#pokemonInfo">Pokemon Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab2" data-toggle="tab" href="#statsRadarChartTab">Stats Radar Chart</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade" id="pokemonInfo">
+                    <div class="row">
+                        <div class="column">
+                            <div class="outer-circle">
+                                <img id="img-Pokemon" src="" alt="Pokemon Image" />
+                            </div>
+                            <p id="pokemonTypes"></p>
+                            <p id="height"></p>
+                            <p id="weight"></p>
+                        </div>
+                        <div class="column">
+                            <div class="container-progress">
+                                <!-- Kosong soalnya dah di buat pake ajax -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="statsRadarChartTab">
+                    <div class="radar-chart-container">
+                        <canvas id="statsRadarChart"></canvas>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img id="img-backdef" src="" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img id="img-backshi" src="" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img id="img-backshi2" src="" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalTitle">Register</h5>
+            </div>
+            <div class="modal-body" id="employeeModalBody">
+                <div class="container-fluid">
+                    <form class="row needs-validation" novalidate>
+                        <div class="container1">
+                            <div class="title">Registration</div>
+                            <div class="user__details">
+                                <div class="input__row">
+                                    <div class="input__box">
+                                        <span class="details1">First Name</span>
+                                        <input type="text" placeholder="E.g: John" required>
+                                        <div class="invalid-feedback">
+                                            Please input your FirstName
+                                        </div>
+                                    </div>
+                                    <div class="input__box">
+                                        <span class="details1">Last Name</span>
+                                        <input type="text" placeholder="E.g: Smith" required>
+                                        <div class="invalid-feedback">
+                                            Please input your LastName
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input__box">
+                                    <span class="details1">Username</span>
+                                    <input type="text" placeholder="johnWC98" required>
+                                    <div class="invalid-feedback">
+                                        Please input your UserName
+                                    </div>
+                                </div>
+                                <div class="input__box">
+                                    <span class="details1">Email</span>
+                                    <input type="email" placeholder="johnsmith@hotmail.com" required>
+                                    <div class="invalid-feedback">
+                                        Please input your Email
+                                    </div>
+                                </div>
+                                <div class="input__box">
+                                    <span class="details1">Phone Number</span>
+                                    <input type="tel" placeholder="012-345-6789" required>
+                                    <div class="invalid-feedback">
+                                        Please input your PhoneNumber
+                                    </div>
+                                </div>
+                                <div class="input__box">
+                                    <span class="details1">Address</span>
+                                    <input type="text" placeholder="Enter your address" required>
+                                    <div class="invalid-feedback">
+                                        Please input your Address
+                                    </div>
+                                </div>
+                                <div class="input__row">
+                                    <div class="input__box">
+                                        <span class="details1">Provinsi</span>
+                                        <input type="text" placeholder="Provinsi " required>
+                                        <div class="invalid-feedback">
+                                            Please input your Provinsi
+                                        </div>
+                                    </div>
+                                    <div class="input__box">
+                                        <span class="details1">Kota</span>
+                                        <input type="text" placeholder="Kota" required>
+                                        <div class="invalid-feedback">
+                                            Masukkan Kota
+                                        </div>
+                                    </div>
+                                    <div class="input__box">
+                                        <span class="details1">Kode Pos</span>
+                                        <input type="tel" placeholder="Kode Pos" maxlength="5" required>
+                                        <div class="invalid-feedback">
+                                            Please input your Kode Pos
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="input__box">
+                                    <span class="details1">Password</span>
+                                    <input type="password" id="passwordInput" placeholder="********" required>
+                                    <div class="invalid-feedback">
+                                        Please input your Password
+                                    </div>
+                                </div>
+                                <div class="input__box confirm-password">
+                                    <span class="details1">Confirm Password</span>
+                                    <input type="password" id="confirmPasswordInput" placeholder="********" required>
+                                    <div class="invalid-feedback">
+                                        Please input your Confirm Password
+                                    </div>
+                                </div>
+                                <div id="passwordError" style="display: none; color: red;">Passwords do not match</div>
+                            </div>
+                            <div class="input__box">
+                                <label class="details1" for="country">Degree</label>
+                                <select class="form-select form-select-lg" id="country" name="country" aria-label=".form-select-lg example" required>
+                                    <option selected disabled>Degree</option>
+                                    <option value="1">D3</option>
+                                    <option value="2">S1</option>
+                                    <option value="3">S2</option>
+                                </select><br><br>
+                            </div>
+                            <div class="gender__details1">
+                                <span class="gender__title1">Gender</span>
+                                <div class="category1">
+                                    <label for="male">
+                                        <input type="radio" name="gender" id="male">
+                                        <span class="dot1 one"></span>
+                                        <span>Male</span>
+                                    </label>
+                                    <label for="female">
+                                        <input type="radio" name="gender" id="female" class="dot1 two">
+                                        <span class="dot1 two"></span>
+                                        <span>Female</span>
+                                    </label>
+                                    <div class="form-group">
+                                        <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+                                    </div>
+                                </div>
+                                <div class="button1">
+                                    <input type="submit" value="Register" onclick="validatePassword()">
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

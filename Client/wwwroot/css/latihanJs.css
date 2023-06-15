@@ -1,0 +1,231 @@
+ul {
+    list-style-type: none;
+}
+
+/*[class*="col"] {
+    padding: 5rem;
+     background-color: #33b5e5;
+      border: 2px solid #fff; 
+    color: #ffff;
+    text-align: center;
+
+}*/
+
+.modal-title {
+    text-align : center;
+}
+
+#tablePoke {
+    width: 100% !important;
+    height: 100px !important;
+}
+
+
+th {
+    background-color : antiquewhite;
+    border: 3px solid black;
+    padding: 8px;
+}
+
+td {
+    border: 2px solid black;
+    padding: 8px;
+
+}
+
+
+.title-wrapper {
+    background: #08e39af4;
+    color: #fff !important;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-wrapper .modal-title {
+    text-transform: uppercase;
+}
+
+.outer-circle {
+    width: 130px; /* Adjust the size of the outer circle as needed */
+    height: 130px;
+    border-radius: 50%;
+    background-color: red;
+    display: block;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#img-Pokemon {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.container-progress{
+    margin-top : 15px;
+}
+
+.progress-bar-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.progress {
+    width: 200px;
+    height: 20px;
+    background-color: #eee;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: green;
+    animation: progressAnimation 2s ease-in-out;
+    box-shadow: 0 0 10px 5px green;
+    animation: glowingAnimation 2s infinite;
+}
+
+@keyframes glowingAnimation {
+    0% {
+        box-shadow: 0 0 10px 5px red;
+    }
+
+    50% {
+        box-shadow: 0 0 20px 10px red;
+    }
+
+    100% {
+        box-shadow: 0 0 10px 5px red;
+    }
+}
+
+
+
+/* Add more CSS styles for other stats' progress bars */
+
+@keyframes progressAnimation {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+/* CSS Animation */
+@keyframes radar-chart-animation {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Apply animation class to the chart container */
+.radar-chart-animation {
+    animation-name: radar-chart-animation;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+.radar-chart-container {
+    width: 450px;
+    height: 450px;
+    display : block;
+    margin : 0 auto;
+}
+
+.type {
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 50px;
+    color: #ffffff;
+    font-weight: bold;
+    display: inline-block;
+    width: auto;
+    margin-top: 20px;
+    text-align : center;
+    
+}
+
+    .type.grass {
+        background-color: #78C850;
+    }
+
+    .type.poison {
+        background-color: #A040A0;
+    }
+    .type.fire{
+        background-color: red;
+    }
+    .type.water{
+        background-color:blue;
+    }
+    .type.bug{
+        background-color :green;
+    }
+    .type.normal{
+        background-color :aqua;
+    }
+    .type.flying{
+        background-color :firebrick;
+    }
+    .type.electric{
+        background-color : gold;
+    }
+    .type.dark{
+        background-color : rebeccapurple;
+    }
+    .type.rock{
+        background-color :dimgrey;
+    }
+    .type.steel{
+        background-color :steelblue;
+    }
+    .type.ground{
+        background-color : saddlebrown;
+    }
+    .type.dragon{
+        background-color : black;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#statsRadarChartTab {
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}

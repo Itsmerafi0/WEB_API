@@ -1,0 +1,175 @@
+
+/* Styles for the container */
+
+.container1 {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+
+@keyframes slide-in {
+    from {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    }
+    to {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Styles for the user details section */
+.user__details {
+    margin-bottom: 20px;
+}
+
+.input__row {
+    display: flex;
+    gap: 10px;
+}
+
+.input__box {
+    flex: 1;
+}
+
+/* Animation for the input row */
+.input__row {
+    animation-name: slide-in-row;
+    animation-duration: 0.5s;
+}
+
+@keyframes slide-in-row {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* Styles for the form title */
+.title1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Styles for the user details section */
+.user__details1 {
+    margin-bottom: 20px;
+}
+
+.input__box1 {
+    margin-bottom: 15px;
+}
+
+.details1 {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.gender__details1 {
+    margin-top: 20px;
+}
+
+.gender__title1 {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.category1 label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+    .category1 label span {
+        margin-left: 5px;
+    }
+
+.category1 input[type="radio"] {
+    display: none;
+}
+
+.category1 .dot1 {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #bbb;
+    position: relative;
+}
+
+    .category1 .dot1::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #bbb;
+        opacity: 0;
+    }
+
+.category1 input[type="radio"]:checked + .dot1::after {
+    opacity: 1;
+}
+
+.category1 input[type="radio"]:focus + .dot1 {
+    border-color: #2ecc71;
+}
+
+.category1 input[type="radio"]:checked + .dot1 {
+    border-color: #2ecc71;
+}
+
+    .category1 input[type="radio"]:checked + .dot1::after {
+        background-color: #2ecc71;
+    }
+
+input[type="submit"] {
+    padding: 10px 150px;
+    background-color: linear-gradient(to bottom, #4caf50, #45a049);
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+    input[type="submit"]:hover {
+        background-color: linear-gradient(to bottom, #45a049, #4caf52);
+    }
+
+.modal-header {
+    position: relative;
+    height: 100px; /* Set the desired height for the header */
+}
+
+.modal-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+

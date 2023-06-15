@@ -6,6 +6,7 @@ namespace API.Models
     [Table("tb_m_accounts")]
     public class Account : BaseEntity
     {
+
         [Column("password")]
         public string Password { get; set; }
         [Column("is_deleted")]

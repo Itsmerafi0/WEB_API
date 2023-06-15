@@ -14,7 +14,7 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
 
     public AccountRepository(
         BookingManagementDbContext context,
-        IUniveristyRepository universityRepository,
+        IUniversityRepository universityRepository,
         IEmployeeRepository employeeRepository,
         IEducationRepository educationRepository
     ) : base(context)
@@ -25,7 +25,7 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
 
     }
 
-    private readonly IUniveristyRepository _universityRepository;
+    private readonly IUniversityRepository _universityRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEducationRepository _educationRepository;
 

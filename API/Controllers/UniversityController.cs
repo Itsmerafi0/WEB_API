@@ -13,9 +13,9 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class UniversityController : BaseController<University, UniversityVM>
     {
-        private readonly IUniveristyRepository _universityRepository;
+        private readonly IUniversityRepository _universityRepository;
         private readonly IMapper<University, UniversityVM> _mapper;
-        public UniversityController(IUniveristyRepository universityRepository, IMapper<University, UniversityVM> mapper) : base(universityRepository, mapper)
+        public UniversityController(IUniversityRepository universityRepository, IMapper<University, UniversityVM> mapper) : base(universityRepository, mapper)
         {
             _universityRepository = universityRepository;
 
